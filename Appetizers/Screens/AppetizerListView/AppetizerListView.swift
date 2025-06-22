@@ -16,18 +16,18 @@ struct AppetizerListView: View {
             NavigationView{
                 List(viewModel.appetizers) { appetizer in
                     AppetizerListCell(appetizer: appetizer)
+                        .listRowSeparator(.hidden)
+                        //.listRowSeparatorTint(.brandPrimary)
                         .onTapGesture {
                             viewModel.selectedAppetizer = appetizer
                             viewModel.isShowingDetailView = true
                         }
                 }
-                .listStyle(PlainListStyle())
+                .listStyle(.plain)
                 .disabled(viewModel.isShowingDetailView)
-                
-                
                 .navigationTitle("Appetizers")
             }
-            .onAppear {
+            .task {
                 viewModel.getAppetizers()
             }
             .blur(radius: viewModel.isShowingDetailView ? 20 : 0)
@@ -37,7 +37,6 @@ struct AppetizerListView: View {
                     appetizer: viewModel.selectedAppetizer ?? MockData.sampleAppetizer,
                     isShowingDetail: $viewModel.isShowingDetailView)
             }
-            
             
             if viewModel.isLoading {
                 LoadingView()

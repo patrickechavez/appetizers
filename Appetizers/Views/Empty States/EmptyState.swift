@@ -16,7 +16,7 @@ struct EmptyState: View {
             
         ZStack {
             Color(.systemBackground)
-                .ignoresSafeArea(.all)
+                .ignoresSafeArea()
             
             VStack {
                 Image(imageName)

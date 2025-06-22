@@ -17,7 +17,7 @@ final class NetworkManager {
     
     private init() {}
     
-    
+    /*
     func getAppetizers(completed: @escaping (Result<[Appetizer], APError>) -> Void) {
         guard let url = URL(string: appetizerURL) else {
             completed(.failure(.invalidURL))
@@ -51,7 +51,27 @@ final class NetworkManager {
         
         task.resume()
     }
-    
+    */
+  
+    func getAppetizers() async throws -> [Appetizer] {
+        guard let url = URL(string: appetizerURL) else {
+            throw APError.invalidURL
+        }
+        
+        let (data, _) = try await URLSession.shared.data(from: url)
+        
+        do{
+            let decoder = JSONDecoder()
+            let decodedResponse = try decoder.decode(AppetizerResponse.self, from: data)
+
+            return decodedResponse.request
+            
+        }catch {
+            throw APError.invalidData
+        }
+
+    }
+   
     func downloadImage(urlString: String, completed: @escaping (UIImage?) -> Void) {
         
         //convert the urlString to NSString
@@ -80,8 +100,5 @@ final class NetworkManager {
         }
         
         task.resume()
-        
-         
-        
     }
 }

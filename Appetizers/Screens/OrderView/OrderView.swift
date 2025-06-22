@@ -11,7 +11,6 @@ struct OrderView: View {
     
     @EnvironmentObject var order: Order
     
-    
     var body: some View {
         NavigationView{
             ZStack {
@@ -26,11 +25,12 @@ struct OrderView: View {
                         List {
                             ForEach(order.items) { appetizer in
                                 AppetizerListCell(appetizer: appetizer)
+                                    .listRowSeparator(.hidden)
                             }
                             .onDelete(perform: order.deleteItem)
-                            
                         }
-                        .listStyle(PlainListStyle())
+                        .listStyle(.plain)
+
                         
                         Button {
                             print("Order Places")
@@ -38,7 +38,7 @@ struct OrderView: View {
                             APButton(title: "$\(order.totalPrice, specifier: "%.2f") - Place Order")
                         }
                         .padding(.bottom, 30)
-                    }
+                    } 
                     
                 }
 

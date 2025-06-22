@@ -10,16 +10,27 @@ import SwiftUI
 struct AppetizerDetailView: View {
     
     @EnvironmentObject var  order: Order
-    
     let appetizer: Appetizer
     @Binding var isShowingDetail: Bool
     
     var body: some View {
         VStack {
-            AppetizerRemoteImage(urlString: appetizer.imageURL)
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 300, height: 225)
             
+            AsyncImage(url: URL(string: appetizer.imageURL)) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 300, height: 225)
+            } placeholder: {
+                Image("food-placeholder")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 300, height: 225)
+            }
+//            AppetizerRemoteImage(urlString: appetizer.imageURL)
+//                .aspectRatio(contentMode: .fit)
+//                .frame(width: 300, height: 225)
+//            
             VStack {
                 Text(appetizer.name)
                     .font(.title2)
@@ -32,9 +43,9 @@ struct AppetizerDetailView: View {
                 
                 HStack(spacing: 40) {
                    
-                    NutritionInfoView(title: "Calories", value: appetizer.calories)
-                    NutritionInfoView(title: "Carbs", value: appetizer.carbs)
-                    NutritionInfoView(title: "Protein", value: appetizer.protein)
+                    NutritionInfoView(title: "Calories", value: "\(appetizer.calories)")
+                    NutritionInfoView(title: "Carbs", value: "\(appetizer.carbs) g")
+                    NutritionInfoView(title: "Protein", value: "\(appetizer.protein) g")
                 
                 }
             }
@@ -42,8 +53,8 @@ struct AppetizerDetailView: View {
             Spacer()
             
             Button {
-                self.isShowingDetail = false
                 order.add(appetizer: appetizer)
+                self.isShowingDetail = false
             }label: {
                 APButton(title: "$\(appetizer.price , specifier: "%.2f") - Add to Cart")
             }
@@ -68,7 +79,7 @@ struct AppetizerDetailView: View {
 struct NutritionInfoView: View {
     
     let title: String
-    let value: Int
+    let value: String
 
     
     var body: some View {
@@ -78,7 +89,7 @@ struct NutritionInfoView: View {
                 .font(.caption)
                 .fontWeight(.bold)
             
-            Text("\(value   )")
+            Text("\(value)")
                 .foregroundStyle(Color.secondary)
                 .fontWeight(.semibold)
                 .italic()

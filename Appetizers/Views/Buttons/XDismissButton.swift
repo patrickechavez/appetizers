@@ -12,7 +12,7 @@ struct XDismissButton: View {
         ZStack {
             Circle()
                 .frame(width: 30, height: 30)
-                .foregroundStyle(Color(.white))
+                .foregroundStyle(Color(.gray))
                 .opacity(0.6)
                 
             Image(systemName: "xmark")

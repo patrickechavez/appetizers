@@ -24,9 +24,14 @@ struct LoadingView: View {
     var body: some View {
         ZStack {
             Color(.systemBackground)
-                .ignoresSafeArea(.all)
+                .ignoresSafeArea()
             
-            ActivityIndicator()
+            //ActivityIndicator()
+            ProgressView()
+            //ProgressView("Loading...")
+                .progressViewStyle(CircularProgressViewStyle())
+                .scaleEffect(2)
+                .tint(Color.brandPrimary)
         }
     }
 }
